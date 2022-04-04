@@ -1,20 +1,18 @@
 classdef line < handle
-    %LINE Summary of this class goes here
-    %   Detailed explanation goes here
-
+   
     %==================================PROPERTIES==============================================
     
     properties 
-        %Определение свойств класса line
+        %Defining properties of the line class
         
-        node_in;  % Father узел
-        node_out; % Дочерний узел
-        W; %Матрица W 6*6
-        L; %Длина линии
-        I_in; %Ток на входном узле
-        U_in; %Напряжение на входном узле
-        sigma_in; %Матрица проводимостей на входе
-        ID; %ID узла
+        node_in; %Parent node
+        node_out; %Child node
+        W; %Matrix W 6*6
+        L; %Line length
+        I_in; %Current at the input node
+        U_in; %Voltage at the input node
+        sigma_in; %Matrix of input conductivities
+        ID; %Node ID
         
      
     end
@@ -22,13 +20,26 @@ classdef line < handle
      %==================================METHODS=================================================
      
     methods 
-        %Определение методов класса line
-        
-        function obj = Line(node_in,node_out,W,L,I_in,U_in,sigma_in,ID)
-        %Конструктор класса
+        %Defining methods of the line class
+         
+        function obj = Line(ID,node_in,node_out,varargin)
+            
+            %==============================================================
+            % id -- integer 
+            % node_in, node_out -- 
+            % I_in, U_in -- Vector (3,1)
+            % sigma_in -- Matrix (3,3)
+            % load -- Matrix (3,3)
+            %==============================================================
+            
+        %Class constructor
         if (nargin>0)
             obj.node_in = node_in;
+                if (obj(varargin) <= 1) && ~isempty(varargin{1})
+                obj.line_in = varargin{1}; 
+            end
             obj.node_out = node_out;
+            obj.ID = ID;
             obj.W = W;
             obj.L = L;
             obj.I_in = I_in;
@@ -41,3 +52,4 @@ classdef line < handle
     end
     
 end
+
